@@ -6,9 +6,6 @@
     <div v-else-if="user">
       <p>Hello {{ user.user_metadata.name }}</p>
     </div>
-    <div v-else>
-      <p>Please log in.</p>
-    </div>
   </q-page>
 </template>
 
