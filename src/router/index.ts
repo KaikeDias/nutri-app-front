@@ -7,16 +7,7 @@ import {
 } from 'vue-router'
 
 import routes from './routes'
-import useUserAuth from 'src/composables/useAuthUser'
-
-/*
- * If not building with SSR mode, you can
- * directly export the Router instantiation;
- *
- * The function below can be async too; either use
- * async/await or return a Promise which resolves
- * with the Router instance.
- */
+import { useAuthStore } from 'src/stores/useAuthStore'
 
 export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
@@ -34,11 +25,12 @@ export default route(function (/* { store, ssrContext } */) {
   })
 
   Router.beforeEach((to) => {
-    const {isLoggedIn} = useUserAuth()
+    const authStore =  useAuthStore();
+    if (to.meta.requiresAuth && !authStore.isLoggedIn()) {
+    console.log('Usuário não autenticado, redirecionando para /login');
+    return { path: '/login' };
+  }
 
-    if(!isLoggedIn() && to.meta.requiresAuth) {
-      return {path: '/login'}
-    }
   })
 
   return Router
