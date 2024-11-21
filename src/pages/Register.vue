@@ -82,7 +82,6 @@
     import { onMounted, ref } from "vue";
     import useUserAuth from "src/composables/useAuthUser";
     import { useRouter } from "vue-router";
-import { convertDate } from "src/utils/convert_date";
 import { date } from "quasar";
 import useNotify from "src/composables/UseNotify";
 import { useAuthStore } from "src/stores/useAuthStore";
