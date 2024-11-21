@@ -3,12 +3,12 @@
     <q-form class="row items-center justify-center" @submit.prevent="handleLogin">
       <p class="col-12 text-h4 text-center">Entrar</p>
       <div class="col-md-4 col-sm-6 col-xs-10 q-gutter-y-md">
-        <q-input label="Email" v-model="form.email" outlined>
+        <q-input label="Email" v-model="form.email" outlined lazy-rules :rules="emailRules" type="email">
           <template v-slot:prepend>
             <q-icon name="mail"/>
           </template>
         </q-input>
-        <q-input label="Senha" v-model="form.password" outlined :type="isPwd ? 'password' : 'text'">
+        <q-input label="Senha" v-model="form.password" outlined :type="isPwd ? 'password' : 'text'" lazy-rules :rules="passwordRules">
           <template v-slot:prepend>
             <q-icon name="vpn_key"/>
           </template>
@@ -46,27 +46,35 @@
   import { ref } from "vue";
   import useUserAuth from "src/composables/useAuthUser";
   import { useRouter } from "vue-router";
+import useNotify from "src/composables/UseNotify";
 
   defineOptions({
     name: "LoginPage",
   });
-
-  const router = useRouter()
-  const {login} = useUserAuth()
-
   const isPwd = ref(true)
-
+  const emailRules = [
+    (val: string) => (val && val.length > 0) || 'Insira um email!'
+  ]
+  const passwordRules = [
+    (val: string) => (val && val.length > 0) || 'Insira uma senha!'
+  ]
+  
   const form = ref({
     email: "",
     password: "",
   });
+  
+  const router = useRouter()
+  const {login} = useUserAuth()
+  const { notifyError, notifySuccess } = useNotify()
 
   const handleLogin = async () => {
     try {
       await login(form.value)
+      notifySuccess('Login concluido com sucesso!')
       router.push({path: '/home'})
     } catch(error: any) {
-      alert(error.message)
+      notifyError(error.message)
     }
   }
 
