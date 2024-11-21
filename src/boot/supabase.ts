@@ -2,8 +2,12 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js'
 import useUserAuth from 'src/composables/useAuthUser';
 import { useAuthStore } from 'src/stores/useAuthStore';
 
-const supabaseUrl: string = 'https://mftofuwjfgxndyacyqcn.supabase.co';
-const supabaseAnonKey: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1mdG9mdXdqZmd4bmR5YWN5cWNuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAxNDIzMzksImV4cCI6MjA0NTcxODMzOX0.jOWqMT2KTUdZl0yx1jDL4FPK0UX-gF0tMQSq-RHhrmc';
+const supabaseUrl: string = process.env.SUPABASE_URL ?? (() => {
+    throw new Error('SUPABASE_URL is not defined');
+  })();
+const supabaseAnonKey: string = process.env.SUPABASE_KEY ?? (() => {
+    throw new Error('SUPABASE_ is not defined');})();
+    
 const supabase: SupabaseClient = createClient(supabaseUrl, supabaseAnonKey)
 
 supabase.auth.onAuthStateChange(async (event, session) => {
