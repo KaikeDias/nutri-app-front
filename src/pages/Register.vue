@@ -38,7 +38,7 @@
           </q-input>
           <q-input label="Senha" v-model="form.password" outlined :type="isPwd ? 'password' : 'text'">
             <template v-slot:prepend>
-              <q-icon name="vpn_key"/>
+              <q-icon name="lock"/>
             </template>
             <template v-slot:append>
               <q-icon
@@ -50,7 +50,7 @@
           </q-input>
           <q-input label="Confirmação de Senha" v-model="form.confirmPassowrd" outlined :type="isConfirmPwd ? 'password' : 'text'">
             <template v-slot:prepend>
-              <q-icon name="vpn_key"/>
+              <q-icon name="lock"/>
             </template>
             <template v-slot:append>
               <q-icon
