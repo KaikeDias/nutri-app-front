@@ -43,10 +43,11 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from "vue";
+  import { onMounted, ref } from "vue";
   import useUserAuth from "src/composables/useAuthUser";
   import { useRouter } from "vue-router";
 import useNotify from "src/composables/UseNotify";
+import { useAuthStore } from "src/stores/useAuthStore";
 
   defineOptions({
     name: "LoginPage",
@@ -67,6 +68,14 @@ import useNotify from "src/composables/UseNotify";
   const router = useRouter()
   const {login} = useUserAuth()
   const { notifyError, notifySuccess } = useNotify()
+  const authStore = useAuthStore()
+
+  onMounted(() => {
+    console.log(authStore.isLoggedIn())
+    if(authStore.isLoggedIn()) {
+      router.push({name: 'home'})
+    }
+  })
 
   const handleLogin = async () => {
     try {

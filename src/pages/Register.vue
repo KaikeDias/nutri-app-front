@@ -79,12 +79,13 @@
   </template>
   
 <script setup lang="ts">
-    import { ref } from "vue";
+    import { onMounted, ref } from "vue";
     import useUserAuth from "src/composables/useAuthUser";
     import { useRouter } from "vue-router";
 import { convertDate } from "src/utils/convert_date";
 import { date } from "quasar";
 import useNotify from "src/composables/UseNotify";
+import { useAuthStore } from "src/stores/useAuthStore";
   
     defineOptions({
       name: "LoginPage",
@@ -128,6 +129,13 @@ import useNotify from "src/composables/UseNotify";
       role: '1',
     });
 
+    const authStore = useAuthStore()
+
+    onMounted(() => {
+      if(authStore.isLoggedIn()) {
+        router.push({name: 'home'})
+      }
+    })
 
     const handleRegister = async () => {
       try {
