@@ -14,5 +14,7 @@ export const useAuthStore = defineStore('auth', () => {
     loading.value = isLoading;
   };
 
-  return { user, loading, setUser, setLoading };
+  const isLoggedIn = () => !!user.value;
+
+  return { user, loading, setUser, setLoading, isLoggedIn };
 });
